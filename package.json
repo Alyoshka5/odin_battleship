@@ -1,0 +1,22 @@
+{
+  "name": "odin_battleship",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alyoshka5/odin_battleship.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alyoshka5/odin_battleship/issues"
+  },
+  "homepage": "https://github.com/Alyoshka5/odin_battleship#readme",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
