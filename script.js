@@ -77,7 +77,14 @@ function Player(isRealPlayer) {
         }
     }
 
-    return { isRealPlayer, missedShots, hitShots, attack }
+    function validateMove(coord) {
+        const madeMoves = this.missedShots.concat(this.hitShots);
+        return !madeMoves.some(move => {
+            return move[0] == coord[0] && move[1] == coord[1];
+        });
+    }
+
+    return { isRealPlayer, missedShots, hitShots, attack, validateMove }
 }
 
 export { Ship, Gameboard, Player }

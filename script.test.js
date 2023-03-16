@@ -106,7 +106,7 @@ describe('Gameboard allShipsSunk method checks if all ships are sunk', () => {
 describe('Player attack method records if player\'s shot hit a ship', () => {
     const player = Player(true);
     const enemyGameboard = Gameboard();
-
+    
     test('records missed shot when no ships hit', () => {
         enemyGameboard.ships = [];
         player.missedShots = [];
@@ -129,5 +129,21 @@ describe('Player attack method records if player\'s shot hit a ship', () => {
         expect(player.hitShots).toEqual([[0, 0]]);
         expect(player.missedShots.length).toBe(0);
         
+    });
+});
+
+describe('Player validateMove method returns true if attack coordinate hasn\'t been attacked yet, false otherwise', () => {
+    const player = Player(true);
+    player.missedShots = [[0, 0], [1, 4]];
+    player.hitShots = [[4, 3], [2, 3]];
+    
+    test('returns true when move is valid', () => {
+        expect(player.validateMove([1, 2])).toBe(true);
+    });
+    test('returns false when move is already in player\'s missedShots', () => {
+        expect(player.validateMove([1, 4])).toBe(false);
+    });
+    test('returns false when move is already in player\'s hitShots', () => {
+        expect(player.validateMove([4, 3])).toBe(false);
     });
 });
