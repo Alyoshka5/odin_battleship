@@ -51,8 +51,10 @@ function Gameboard() {
         const ship = getShip(this.ships, coord[0], coord[1]);
         if (ship != undefined) {
             ship.hit();
+            return true;
         } else {
             this.missedShots.push(coord);
+            return false;
         }
     }
 
@@ -63,4 +65,19 @@ function Gameboard() {
     return { ships, missedShots, placeShip, receiveAttack, allShipsSunk }
 }
 
-export { Ship, Gameboard }
+function Player(isRealPlayer) {
+    const missedShots = [];
+    const hitShots = [];
+
+    function attack(coord, enemyGameboard) {
+        if (enemyGameboard.receiveAttack(coord)) {
+            this.hitShots.push(coord);
+        } else {
+            this.missedShots.push(coord);
+        }
+    }
+
+    return { isRealPlayer, missedShots, hitShots, attack }
+}
+
+export { Ship, Gameboard, Player }
