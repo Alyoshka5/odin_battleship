@@ -23,7 +23,7 @@ describe('Ship factory function correctly initialized', () => {
     });
 });
 
-describe('Gameboard factory function correctly initialized', () => {
+describe('Gameboard placeShip method places ship when allowed', () => {
     const gameboard = Gameboard();
     test('creates ship vertically on gameboard', () => {
         gameboard.ships = [];
@@ -45,5 +45,26 @@ describe('Gameboard factory function correctly initialized', () => {
         gameboard.placeShip(3, 0, 0, 'horizontal');
         gameboard.placeShip(3, 0, 1, 'horizontal');
         expect(gameboard.ships.length).toBe(1);
+    });
+});
+
+describe('Gameboard receiveAttack method records hit or miss', () => {
+    const gameboard = Gameboard();
+    const ship = { length: 3, coords: [[0, 0], [0, 1], [0, 2]], timesHit: 0, 
+        hit: jest.fn(function() {
+            this.timesHit++;
+        })
+    }
+    
+    test('records missed shot when no ship is hit at coordinate', () => {
+        gameboard.ships = [];
+        gameboard.receiveAttack([0, 0]);
+        expect(gameboard.missedShots.some(shot => shot[0] == 0 && shot[1] == 0)).toBe(true);
+    });
+    test('calls hit method on ship when ship is hit', () => {
+        gameboard.ships = [];
+        gameboard.ships.push(ship);
+        gameboard.receiveAttack([0, 0]);
+        expect(ship.hit).toHaveBeenCalled();
     });
 });

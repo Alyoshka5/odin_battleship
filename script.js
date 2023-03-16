@@ -12,6 +12,7 @@ function Ship(length, coords) {
 
 function Gameboard() {
     const ships = [];
+    const missedShots = [];
 
     function placeShip(shipLength, row, col, rotation) {
         if ((rotation == 'vertical' && row + shipLength > 10) || (rotation == 'horizontal' && col + shipLength > 10)) return;
@@ -25,28 +26,37 @@ function Gameboard() {
         let coords = [];
         if (rotation == 'vertical') {
             for (let i = 0; i < shipLength; i++) {
-                if (!validateCoord(ships, row + i, col)) return;
+                if (getShip(ships, row + i, col) != undefined) return;
                 coords.push([row + i, col]);
             }
         } else {
             for (let i = 0; i < shipLength; i++) {
-                if (!validateCoord(ships, row, col + i)) return;
+                if (getShip(ships, row, col + i) != undefined) return;
                 coords.push([row, col + i]);
             }
         }
         return coords;
     }
 
-    function validateCoord(ships, row, col) {
+    // returns ship object if there is a ship at coordinate and undefined otherwise
+    function getShip(ships, row, col) {
         return ships.find(ship => {
-            console.log(ship);
             return ship.coords.some(coord => {
                 return coord[0] == row && coord[1] == col;
             });
-        }) == undefined;
+        });
     }
 
-    return { ships, placeShip }
+    function receiveAttack(coord) {
+        const ship = getShip(this.ships, coord[0], coord[1]);
+        if (ship != undefined) {
+            ship.hit();
+        } else {
+            this.missedShots.push(coord);
+        }
+    }
+
+    return { ships, missedShots, placeShip, receiveAttack }
 }
 
 export { Ship, Gameboard }
