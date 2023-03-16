@@ -1,8 +1,8 @@
-import { Ship, Gameboard } from './script';
+import { Ship, Gameboard, Player } from './script';
 
 describe('Ship factory function correctly initialized', () => {
     const ship = Ship(3, [[0, 1], [0, 2], [0, 3]]);
-    
+
     test('properties set to correct values', () => {
         expect(ship.length).toBe(3);
         expect(ship.coords).toEqual([[0, 1], [0, 2], [0, 3]])
@@ -100,5 +100,34 @@ describe('Gameboard allShipsSunk method checks if all ships are sunk', () => {
         ship.timesHit = 3;
         ship2.timesHit = 2;
         expect(gameboard.allShipsSunk()).toBe(true);
+    });
+});
+
+describe('Player attack method records if player\'s shot hit a ship', () => {
+    const player = Player(true);
+    const enemyGameboard = Gameboard();
+
+    test('records missed shot when no ships hit', () => {
+        enemyGameboard.ships = [];
+        player.missedShots = [];
+        player.hitShots = [];
+        player.attack([0, 0], enemyGameboard);
+        expect(player.missedShots).toEqual([[0, 0]]);
+        expect(player.hitShots.length).toBe(0);
+    });
+    test('records hit shot when ship is hit at coordinate', () => {
+        enemyGameboard.ships = [];
+        enemyGameboard.ships = [];
+        player.missedShots = [];
+        const ship = { length: 3, coords: [[0, 0], [0, 1], [0, 2]], timesHit: 0, 
+            hit: jest.fn(function() {
+                this.timesHit++;
+            })
+        }
+        enemyGameboard.ships.push(ship);
+        player.attack([0, 0], enemyGameboard);
+        expect(player.hitShots).toEqual([[0, 0]]);
+        expect(player.missedShots.length).toBe(0);
+        
     });
 });
