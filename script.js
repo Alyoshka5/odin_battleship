@@ -56,7 +56,11 @@ function Gameboard() {
         }
     }
 
-    return { ships, missedShots, placeShip, receiveAttack }
+    function allShipsSunk() {
+        return this.ships.every(ship => ship.isSunk());
+    }
+
+    return { ships, missedShots, placeShip, receiveAttack, allShipsSunk }
 }
 
 export { Ship, Gameboard }
