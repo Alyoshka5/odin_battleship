@@ -2,6 +2,7 @@ import { Ship, Gameboard } from './script';
 
 describe('Ship factory function correctly initialized', () => {
     const ship = Ship(3, [[0, 1], [0, 2], [0, 3]]);
+    
     test('properties set to correct values', () => {
         expect(ship.length).toBe(3);
         expect(ship.coords).toEqual([[0, 1], [0, 2], [0, 3]])
@@ -25,6 +26,7 @@ describe('Ship factory function correctly initialized', () => {
 
 describe('Gameboard placeShip method places ship when allowed', () => {
     const gameboard = Gameboard();
+
     test('creates ship vertically on gameboard', () => {
         gameboard.ships = [];
         gameboard.placeShip(3, 0, 9, 'vertical');
@@ -99,5 +101,4 @@ describe('Gameboard allShipsSunk method checks if all ships are sunk', () => {
         ship2.timesHit = 2;
         expect(gameboard.allShipsSunk()).toBe(true);
     });
-    
-})
+});
