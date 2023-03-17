@@ -147,3 +147,34 @@ describe('Player validateMove method returns true if attack coordinate hasn\'t b
         expect(player.validateMove([4, 3])).toBe(false);
     });
 });
+
+describe('Player getValidMove method returns coordinate for a valid move', () => {
+    // tests do not completely ensure validity of method since method uses Math.random()
+    const player = Player(false);  // Player parameter not important for these tests
+
+    test('returns [0, 0] when [0, 0] is the only valid move', () => {
+        player.missedShots = [];
+        for (let r = 0; r < 10; r++) {
+            for (let c = 0; c < 10; c++) {
+                if (r == 0 && c == 0) continue;
+                player.missedShots.push([r, c]);
+            }
+        }
+        expect(player.getValidMove()).toEqual([0, 0]);
+        expect(player.getValidMove()).toEqual([0, 0]);
+        expect(player.getValidMove()).toEqual([0, 0]);
+    });
+
+    test('returns [2, 3] when [2, 3] is the only valid move', () => {
+        player.missedShots = [];
+        for (let r = 0; r < 10; r++) {
+            for (let c = 0; c < 10; c++) {
+                if (r == 2 && c == 3) continue;
+                player.missedShots.push([r, c]);
+            }
+        }
+        expect(player.getValidMove()).toEqual([2, 3]);
+        expect(player.getValidMove()).toEqual([2, 3]);
+        expect(player.getValidMove()).toEqual([2, 3]);
+    });
+});
