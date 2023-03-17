@@ -1,4 +1,4 @@
-import { Ship, Gameboard, Player } from './script';
+import { Ship, Gameboard, Player } from './factories';
 
 describe('Ship factory function correctly initialized', () => {
     const ship = Ship(3, [[0, 1], [0, 2], [0, 3]]);
