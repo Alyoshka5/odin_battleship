@@ -84,7 +84,17 @@ function Player(isRealPlayer) {
         });
     }
 
-    return { isRealPlayer, missedShots, hitShots, attack, validateMove }
+    function getValidMove() {
+        let coord;
+        do {
+            let row = Math.floor(Math.random() * 10);
+            let col = Math.floor(Math.random() * 10);
+            coord = [row, col];
+        } while (!validateMove.call(this, coord));
+        return coord;
+    }
+
+    return { isRealPlayer, missedShots, hitShots, attack, validateMove, getValidMove }
 }
 
 export { Ship, Gameboard, Player }
