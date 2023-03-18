@@ -1,4 +1,5 @@
 import { Gameboard, Player } from './factories.js';
+import domController from './domController.js';
 
 const player = Player(true);
 const playerGameboard = Gameboard();
