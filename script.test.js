@@ -103,6 +103,22 @@ describe('Gameboard allShipsSunk method checks if all ships are sunk', () => {
     });
 });
 
+describe('Gameboard fillBoard method fills board with ships', () => {
+    const gameboard = Gameboard();
+    gameboard.fillBoard();
+    
+    test('places 7 ships on board', () => {
+        expect(gameboard.ships.length).toBe(7);
+    });
+    test('correct amount of ships for each ship length', () => {
+        expect(gameboard.ships.filter(ship => ship.length == 1).length).toBe(2);
+        expect(gameboard.ships.filter(ship => ship.length == 2).length).toBe(2);
+        expect(gameboard.ships.filter(ship => ship.length == 3).length).toBe(1);
+        expect(gameboard.ships.filter(ship => ship.length == 4).length).toBe(1);
+        expect(gameboard.ships.filter(ship => ship.length == 5).length).toBe(1);
+    });
+});
+
 describe('Player attack method records if player\'s shot hit a ship', () => {
     const player = Player(true);
     const enemyGameboard = Gameboard();

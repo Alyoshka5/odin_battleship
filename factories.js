@@ -62,7 +62,21 @@ function Gameboard() {
         return this.ships.every(ship => ship.isSunk());
     }
 
-    return { ships, missedShots, placeShip, receiveAttack, allShipsSunk }
+    function fillBoard() {
+        const shipLengths = [1, 1, 2, 2, 3, 4, 5];
+        for (let length of shipLengths) {
+            let row, col, rotation, validity;
+            do {
+                row = Math.floor(Math.random() * 10);
+                col = Math.floor(Math.random() * 10);
+                rotation = ['vertical', 'horizontal'][Math.floor(Math.random() * 2)];
+                validity = !((rotation == 'vertical' && row + length > 10) || (rotation == 'horizontal' && col + length > 10));
+            } while (!(validity && generateShipCoords(this.ships, length, row, col, rotation)));
+            placeShip.call(this, length, row, col, rotation);
+        }
+    }
+
+    return { ships, missedShots, placeShip, receiveAttack, allShipsSunk, fillBoard }
 }
 
 function Player(isRealPlayer) {
