@@ -13,6 +13,11 @@ let currentGameboard = playerGameboard;
 
 (function GameLoop() {
     do {
-
+        
     } while (!currentGameboard.allShipsSunk());
 });
+
+function switchPlayers() {
+    currentPlayer = currentPlayer == player ? computer : player;
+    currentGameboard = currentGameboard == playerGameboard ? computerGameboard : playerGameboard;
+}
