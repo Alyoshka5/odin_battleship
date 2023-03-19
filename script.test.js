@@ -1,4 +1,5 @@
 import { Ship, Gameboard, Player } from './factories';
+import domController from './domController';
 
 describe('Ship factory function correctly initialized', () => {
     const ship = Ship(3, [[0, 1], [0, 2], [0, 3]]);
@@ -192,5 +193,19 @@ describe('Player getValidMove method returns coordinate for a valid move', () =>
         expect(player.getValidMove()).toEqual([2, 3]);
         expect(player.getValidMove()).toEqual([2, 3]);
         expect(player.getValidMove()).toEqual([2, 3]);
+    });
+});
+
+describe('Gameboard setUpGameboard method calls displayGameboard with an array of every ship\'s coordinates', () => {
+    const gameboard = Gameboard();
+    const ship = Ship(3, [[2, 3], [3, 3], [4, 4]]);
+    const ship2 = Ship(2, [[6, 4], [7, 4]]);
+    gameboard.ships.push(ship);
+    gameboard.ships.push(ship2);
+    jest.spyOn(domController, 'displayGameboard');
+    gameboard.setUpGameboard();
+
+    test('calls displayGameboard with correct coordinates', () => {
+        expect(domController.displayGameboard).toHaveBeenCalledWith([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
     });
 });
