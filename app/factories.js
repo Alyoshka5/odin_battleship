@@ -1,3 +1,5 @@
+import domController from "./domController.js";
+
 function Ship(length, coords) {
     function hit() {
         this.timesHit++;
@@ -76,7 +78,12 @@ function Gameboard() {
         }
     }
 
-    return { ships, missedShots, placeShip, receiveAttack, allShipsSunk, fillBoard }
+    function setUpGameboard() {
+        const shipsCoords = this.ships.map(ship => ship.coords);
+        domController.displayGameboard(shipsCoords);
+    }
+
+    return { ships, missedShots, placeShip, receiveAttack, allShipsSunk, fillBoard, setUpGameboard }
 }
 
 function Player(isRealPlayer) {
