@@ -80,7 +80,8 @@ function Gameboard() {
 
     function setUpGameboard() {
         const shipsCoords = this.ships.map(ship => ship.coords);
-        domController.displayGameboard(shipsCoords);
+        domController.displayGameboard(true, shipsCoords);
+        domController.displayGameboard(false);
     }
 
     return { ships, missedShots, placeShip, receiveAttack, allShipsSunk, fillBoard, setUpGameboard }

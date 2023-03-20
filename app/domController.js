@@ -1,10 +1,10 @@
 
 const domController = (function() {
     
-    function displayGameboard(shipsCoords) {
+    function displayGameboard(isPlayerGameboard, shipsCoords) {
         const boardContainer = document.querySelector('.board-container');
         const boardDiv = document.createElement('div');
-        boardDiv.classList.add('board');
+        boardDiv.classList.add(isPlayerGameboard ? 'board' : 'enemy-board');
 
         for (let r = 0; r < 10; r++) {
             const row = document.createElement('div');
@@ -13,7 +13,7 @@ const domController = (function() {
                 const tile = document.createElement('div');
                 tile.classList.add('board-tile');
                 tile.setAttribute('coordinate', `${r} ${c}`);
-                stylizeTile(shipsCoords, tile, r, c);
+                if (isPlayerGameboard) stylizeTile(shipsCoords, tile, r, c);
                 row.appendChild(tile);
             }
             boardDiv.appendChild(row);
