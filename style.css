@@ -1,0 +1,39 @@
+:root {
+    --ship-division-border: 1px solid #e6e6e6;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #75cdff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    background-color: #75cdff;
+}
+
+.board-row {
+    display: flex;
+}
+
+.board-tile {
+    width: 65px;
+    height: 65px;
+    border: 1px solid #0000ff;
+    box-sizing: border-box;
+}
+
+.ship-tile {
+    background-color: #bdbdbd;
+    border: 3px solid #000000;
+}
