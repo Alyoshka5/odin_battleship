@@ -209,3 +209,16 @@ describe('Gameboard setUpGameboard method calls displayGameboard with an array o
         expect(domController.displayGameboard).toHaveBeenCalledWith([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
     });
 });
+
+describe('domController displayGameboard method creates and appends elements to DOM', () => {
+    jest.spyOn(document, 'createElement');
+    jest.spyOn(document.body, 'appendChild');
+    domController.displayGameboard([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
+
+    test('creates 111 elements (1 board, 10 rows, 100 tiles)', () => {
+        expect(document.createElement.mock.calls.length).toBe(111);
+    });
+    test('calls appendChild on document body', () => {
+        expect(document.body.appendChild).toHaveBeenCalled();
+    });
+});
