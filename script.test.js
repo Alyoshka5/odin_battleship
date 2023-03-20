@@ -208,9 +208,12 @@ describe('Gameboard setUpGameboard method calls displayGameboard with an array o
     jest.spyOn(domController, 'displayGameboard');
     gameboard.setUpGameboard();
     document.body.removeChild(boardContainer);
-    
+
     test('calls displayGameboard with correct coordinates', () => {
-        expect(domController.displayGameboard).toHaveBeenCalledWith([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
+        expect(domController.displayGameboard).toHaveBeenCalledWith(true, [[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
+    });
+    test('calls displayGameboard without coordinates to set up enemy board', () => {
+        expect(domController.displayGameboard).toHaveBeenCalledWith(false);
     });
 });
 
@@ -220,13 +223,25 @@ describe('domController displayGameboard method creates and appends elements to 
     document.body.appendChild(boardContainer);
     jest.spyOn(boardContainer, 'appendChild');
     jest.spyOn(document, 'createElement');
-    domController.displayGameboard([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
-    document.body.removeChild(boardContainer);
-
+    domController.displayGameboard(true, [[[6, 4], [7, 4]]]);
+    
     test('creates 111 elements (1 board, 10 rows, 100 tiles)', () => {
         expect(document.createElement.mock.calls.length).toBe(111);
     });
     test('calls appendChild on document body', () => {
         expect(boardContainer.appendChild).toHaveBeenCalled();
     });
+    test('boardDiv\'s class set to "board" when isPlayerGameboard is true', () => {
+        expect(boardContainer.querySelector('.board')).not.toBe(null);
+    });
+    test('boardDiv\'s class set to "enemy-board" when isPlayerGameboard is false', () => {
+        const boardContainer = document.createElement('div');
+        boardContainer.classList.add('board-container');
+        document.body.appendChild(boardContainer);
+        domController.displayGameboard(false);
+        expect(boardContainer.querySelector('.board')).toBe(null);
+        expect(boardContainer.querySelector('.enemy-board')).not.toBe(null);
+    });
+    
+    document.body.removeChild(boardContainer);
 });
