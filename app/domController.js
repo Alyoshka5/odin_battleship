@@ -2,9 +2,10 @@
 const domController = (function() {
     
     function displayGameboard(shipsCoords) {
+        const boardContainer = document.querySelector('.board-container');
         const boardDiv = document.createElement('div');
         boardDiv.classList.add('board');
-        
+
         for (let r = 0; r < 10; r++) {
             const row = document.createElement('div');
             row.classList.add('board-row');
@@ -17,7 +18,7 @@ const domController = (function() {
             }
             boardDiv.appendChild(row);
         }
-        document.body.appendChild(boardDiv);
+        boardContainer.appendChild(boardDiv);
     }
 
     function stylizeTile(shipsCoords, tile, row, col) {

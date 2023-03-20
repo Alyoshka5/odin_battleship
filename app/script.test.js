@@ -197,6 +197,9 @@ describe('Player getValidMove method returns coordinate for a valid move', () =>
 });
 
 describe('Gameboard setUpGameboard method calls displayGameboard with an array of every ship\'s coordinates', () => {
+    const boardContainer = document.createElement('div');
+    boardContainer.classList.add('board-container');
+    document.body.appendChild(boardContainer);
     const gameboard = Gameboard();
     const ship = Ship(3, [[2, 3], [3, 3], [4, 4]]);
     const ship2 = Ship(2, [[6, 4], [7, 4]]);
@@ -204,21 +207,26 @@ describe('Gameboard setUpGameboard method calls displayGameboard with an array o
     gameboard.ships.push(ship2);
     jest.spyOn(domController, 'displayGameboard');
     gameboard.setUpGameboard();
-
+    document.body.removeChild(boardContainer);
+    
     test('calls displayGameboard with correct coordinates', () => {
         expect(domController.displayGameboard).toHaveBeenCalledWith([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
     });
 });
 
 describe('domController displayGameboard method creates and appends elements to DOM', () => {
+    const boardContainer = document.createElement('div');
+    boardContainer.classList.add('board-container');
+    document.body.appendChild(boardContainer);
+    jest.spyOn(boardContainer, 'appendChild');
     jest.spyOn(document, 'createElement');
-    jest.spyOn(document.body, 'appendChild');
     domController.displayGameboard([[[2, 3], [3, 3], [4, 4]], [[6, 4], [7, 4]]]);
+    document.body.removeChild(boardContainer);
 
     test('creates 111 elements (1 board, 10 rows, 100 tiles)', () => {
         expect(document.createElement.mock.calls.length).toBe(111);
     });
     test('calls appendChild on document body', () => {
-        expect(document.body.appendChild).toHaveBeenCalled();
+        expect(boardContainer.appendChild).toHaveBeenCalled();
     });
 });
