@@ -43,7 +43,17 @@ const domController = (function() {
         });
     }
 
-    return { displayGameboard }
+    function registerMove() {
+        return new Promise((resolve, reject) => {
+            const tiles = document.querySelectorAll('.enemy-board .board-tile');
+            
+            tiles.forEach(tile => tile.addEventListener('click', () => {
+                resolve(tile.getAttribute('coordinate'));
+            }));
+        });
+    }
+
+    return { displayGameboard, registerMove }
 })();
 
 export default domController;
