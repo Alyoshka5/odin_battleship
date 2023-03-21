@@ -195,7 +195,7 @@ describe('Player getValidMove method returns coordinate for a valid move', () =>
         expect(await player.getValidMove()).toEqual([2, 3]);
     });
     test('calls domController registerMove method when player is not computer', () => {
-        domController.registerMove = jest.fn();
+        domController.registerMove = jest.fn(() =>'0 0');
         player2.getValidMove();
         expect(domController.registerMove).toHaveBeenCalled();
     });
