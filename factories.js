@@ -94,8 +94,10 @@ function Player(isRealPlayer) {
     function attack(coord, enemyGameboard) {
         if (enemyGameboard.receiveAttack(coord)) {
             this.hitShots.push(coord);
+            return true;
         } else {
             this.missedShots.push(coord);
+            return false;
         }
     }
 

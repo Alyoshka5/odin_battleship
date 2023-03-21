@@ -120,15 +120,15 @@ describe('Gameboard fillBoard method fills board with ships', () => {
     });
 });
 
-describe('Player attack method records if player\'s shot hit a ship', () => {
+describe('Player attack method records and returns if player\'s shot hit a ship', () => {
     const player = Player(true);
     const enemyGameboard = Gameboard();
     
-    test('records missed shot when no ships hit', () => {
+    test('returns false and records missed shot when no ships hit', () => {
         enemyGameboard.ships = [];
         player.missedShots = [];
         player.hitShots = [];
-        player.attack([0, 0], enemyGameboard);
+        expect(player.attack([0, 0], enemyGameboard)).toBe(false);
         expect(player.missedShots).toEqual([[0, 0]]);
         expect(player.hitShots.length).toBe(0);
     });
@@ -142,7 +142,7 @@ describe('Player attack method records if player\'s shot hit a ship', () => {
             })
         }
         enemyGameboard.ships.push(ship);
-        player.attack([0, 0], enemyGameboard);
+        expect(player.attack([0, 0], enemyGameboard)).toBe(true);
         expect(player.hitShots).toEqual([[0, 0]]);
         expect(player.missedShots.length).toBe(0);
         
