@@ -167,9 +167,10 @@ describe('Player validateMove method returns true if attack coordinate hasn\'t b
 
 describe('Player getValidMove method returns coordinate for a valid move', () => {
     // tests do not completely ensure validity of method since method uses Math.random()
-    const player = Player(false);  // Player parameter not important for these tests
+    const player = Player(false);
+    const player2 = Player(true);
 
-    test('returns [0, 0] when [0, 0] is the only valid move', () => {
+    test('returns [0, 0] when [0, 0] is the only valid move and player is computer', async () => {
         player.missedShots = [];
         for (let r = 0; r < 10; r++) {
             for (let c = 0; c < 10; c++) {
@@ -177,12 +178,11 @@ describe('Player getValidMove method returns coordinate for a valid move', () =>
                 player.missedShots.push([r, c]);
             }
         }
-        expect(player.getValidMove()).toEqual([0, 0]);
-        expect(player.getValidMove()).toEqual([0, 0]);
-        expect(player.getValidMove()).toEqual([0, 0]);
+        expect(await player.getValidMove()).toEqual([0, 0]);
+        expect(await player.getValidMove()).toEqual([0, 0]);
+        expect(await player.getValidMove()).toEqual([0, 0]);
     });
-
-    test('returns [2, 3] when [2, 3] is the only valid move', () => {
+    test('returns [2, 3] when [2, 3] is the only valid move player is computer', async () => {
         player.missedShots = [];
         for (let r = 0; r < 10; r++) {
             for (let c = 0; c < 10; c++) {
@@ -190,9 +190,14 @@ describe('Player getValidMove method returns coordinate for a valid move', () =>
                 player.missedShots.push([r, c]);
             }
         }
-        expect(player.getValidMove()).toEqual([2, 3]);
-        expect(player.getValidMove()).toEqual([2, 3]);
-        expect(player.getValidMove()).toEqual([2, 3]);
+        expect(await player.getValidMove()).toEqual([2, 3]);
+        expect(await player.getValidMove()).toEqual([2, 3]);
+        expect(await player.getValidMove()).toEqual([2, 3]);
+    });
+    test('calls domController registerMove method when player is not computer', () => {
+        domController.registerMove = jest.fn();
+        player2.getValidMove();
+        expect(domController.registerMove).toHaveBeenCalled();
     });
 });
 

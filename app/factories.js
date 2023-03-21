@@ -106,17 +106,22 @@ function Player(isRealPlayer) {
         });
     }
 
-    function getValidMove() {
+    async function getValidMove() {
         let coord;
         do {
-            let row = Math.floor(Math.random() * 10);
-            let col = Math.floor(Math.random() * 10);
-            coord = [row, col];
+            if (this.isRealPlayer) {
+                coord = await domController.registerMove();
+                coord = coord.split(' ').map(c => parseInt(c));
+            } else {
+                let row = Math.floor(Math.random() * 10);
+                let col = Math.floor(Math.random() * 10);
+                coord = [row, col];
+            }
         } while (!validateMove.call(this, coord));
         return coord;
     }
 
-    return { isRealPlayer, missedShots, hitShots, attack, validateMove, getValidMove }
+    return { isRealPlayer, missedShots, hitShots, attack, validateMove, getValidMove, makeMove }
 }
 
 export { Ship, Gameboard, Player }
