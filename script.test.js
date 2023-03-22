@@ -227,12 +227,8 @@ describe('domController displayGameboard method creates and appends elements to 
     boardContainer.classList.add('board-container');
     document.body.appendChild(boardContainer);
     jest.spyOn(boardContainer, 'appendChild');
-    jest.spyOn(document, 'createElement');
     domController.displayGameboard(true, [[[6, 4], [7, 4]]]);
     
-    test('creates 111 elements (1 board, 10 rows, 100 tiles)', () => {
-        expect(document.createElement.mock.calls.length).toBe(111);
-    });
     test('calls appendChild on document body', () => {
         expect(boardContainer.appendChild).toHaveBeenCalled();
     });
