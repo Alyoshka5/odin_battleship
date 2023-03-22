@@ -50,3 +50,45 @@ body {
     background-color: #bdbdbd;
     border: 3px solid #000000;
 }
+
+.hit-symbol {
+    width: 65px;
+    height: 65px;
+    position: relative;
+}
+.hit-symbol::before, .hit-symbol::after {
+    content: "";
+    background-color: red;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+.hit-symbol::after {
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.miss-ship-tile {
+    background-color: #70b8e2;
+}
+.miss-symbol {
+    width: 65px;
+    height: 65px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.miss-symbol::after {
+    content: "";
+    background-color: #000;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.last-attacked-tile {
+    background-color: #ffe853ac;
+}

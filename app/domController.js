@@ -1,6 +1,7 @@
 
 const domController = (function() {
-    
+    let playerLastAttackedTile;
+
     function displayGameboard(isPlayerGameboard, shipsCoords) {
         const boardContainer = document.querySelector('.board-container');
         const boardDiv = document.createElement('div');
@@ -53,7 +54,21 @@ const domController = (function() {
         });
     }
 
-    return { displayGameboard, registerMove }
+    function displayPlayerAttack(coord, shipIsHit) {
+        const attackedTile = document.querySelector(`.enemy-board .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
+        if (shipIsHit) {
+            attackedTile.innerHTML = '<div class="hit-symbol"></div>';
+        } else {
+            attackedTile.innerHTML = '<div class="miss-symbol"></div>';
+            attackedTile.classList.add('miss-ship-tile');
+        }
+        attackedTile.classList.add('last-attacked-tile');
+        if (this.playerLastAttackedTile) this.playerLastAttackedTile.classList.remove('last-attacked-tile');
+        this.playerLastAttackedTile = attackedTile;
+    }
+
+    
+    return { displayGameboard, registerMove, displayPlayerAttack, playerLastAttackedTile }
 })();
 
 export default domController;
