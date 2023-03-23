@@ -84,7 +84,7 @@ function Gameboard() {
         domController.displayGameboard(false);
     }
 
-    return { ships, missedShots, placeShip, receiveAttack, allShipsSunk, fillBoard, setUpGameboard }
+    return { ships, missedShots, placeShip, getShip, receiveAttack, allShipsSunk, fillBoard, setUpGameboard }
 }
 
 function Player(isRealPlayer) {
@@ -122,8 +122,23 @@ function Player(isRealPlayer) {
         } while (!validateMove.call(this, coord));
         return coord;
     }
+    
+    async function manageShipAttack(enemyGameboard, move, shipIsHit, isRealPlayer) {
+        domController.displayAttack(move, shipIsHit, isRealPlayer);
+        if (shipIsHit) {
+            const enemyShip = enemyGameboard.getShip(enemyGameboard.ships, move[0], move[1]);
+            if (enemyShip.isSunk()) {
+                domController.stylizeSunkShip(enemyShip, isRealPlayer);
+                if (enemyGameboard.allShipsSunk()) {
+                    return true;
+                }
+            }
+            return await this.makeMove.call(this, enemyGameboard);
+        }
+        return false;
+    }
 
-    return { isRealPlayer, missedShots, hitShots, attack, validateMove, getValidMove, makeMove }
+    return { isRealPlayer, missedShots, hitShots, attack, validateMove, getValidMove, makeMove, manageShipAttack }
 }
 
 export { Ship, Gameboard, Player }

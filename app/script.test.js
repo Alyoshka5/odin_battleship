@@ -271,3 +271,57 @@ describe('domController displayPlayerAttack method adds appropriate classes to a
     });
 });
 
+describe('Player manageShipAttack method handles ship attacks and returns if all ships are sunk', () => {
+    const player = Player(true);
+    player.makeMove = jest.fn().mockResolvedValue(false);
+    // create attackedTile and add it to enemy board
+    const enemyBoard = document.createElement('div');
+    enemyBoard.classList.add('enemy-board');
+    document.body.appendChild(enemyBoard);
+    for (let coord of ['0 0', '0 1', '0 2']) {
+        const attackedTile = document.createElement('div');
+        attackedTile.classList.add('board-tile');
+        attackedTile.setAttribute('coordinate', coord);
+        enemyBoard.appendChild(attackedTile);
+    }
+    // create enemy gameboard and ship
+    const enemyGameboard = Gameboard();
+    const ship = Ship(2, [[0, 0], [0, 1]]);
+    enemyGameboard.ships.push(ship);
+    const ship2 = Ship(1, [[0, 4]]);
+    enemyGameboard.ships.push(ship2);
+
+    test('returns false if ship is not hit', async () => {
+        expect(await player.manageShipAttack(enemyGameboard, [0, 2], false, true)).toBe(false);
+    });
+    test('calls makeMove and returns false if ship is hit but not sunk', async () => {
+        expect(await player.manageShipAttack(enemyGameboard, [0, 0], true, true)).toBe(false);
+        expect(player.makeMove).toHaveBeenCalled();
+    });
+    test('calls makeMove and enemyGameboard.allShipsSunk() if ship is hit and sunk', async () => {
+        jest.spyOn(enemyGameboard, 'allShipsSunk');
+        ship.timesHit = 0;
+        player.hitShots = [];
+        player.attack([0, 0], enemyGameboard);
+        player.attack([0, 1], enemyGameboard);
+        await player.manageShipAttack(enemyGameboard, [0, 1], true, true)
+        expect(enemyGameboard.allShipsSunk).toHaveBeenCalled();
+        expect(player.makeMove).toHaveBeenCalled();
+    });
+    test('returns false if ship is sunk but not all ships are sunk', async () => {
+        ship.timesHit = 0;
+        player.hitShots = [];
+        player.attack([0, 0], enemyGameboard);
+        expect(await player.manageShipAttack(enemyGameboard, [0, 0], true, true)).toBe(false);
+        player.attack([0, 1], enemyGameboard);
+        expect(await player.manageShipAttack(enemyGameboard, [0, 1], true, true)).toBe(false);
+    });
+    test('returns true if all ships are sunk', async () => {
+        ship.timesHit = 0;
+        player.hitShots = [];
+        player.attack([0, 0], enemyGameboard);
+        player.attack([0, 1], enemyGameboard);
+        player.attack([0, 4], enemyGameboard);
+        expect(await player.manageShipAttack(enemyGameboard, [0, 4], true, true)).toBe(true);
+    }); 
+});
