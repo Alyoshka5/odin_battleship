@@ -67,6 +67,13 @@ const domController = (function() {
         this.playerLastAttackedTile = attackedTile;
     }
 
+    function stylizeComputerSunkShip(ship) {
+        for (let coord of ship.coords) {
+            const shipTile = document.querySelector(`.enemy-board .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
+            stylizeTile([ship.coords], shipTile, coord[0], coord[1], false);
+        }
+    }
+
     return { displayGameboard, registerMove, displayPlayerAttack, playerLastAttackedTile, stylizeComputerSunkShip }
 })();
 
