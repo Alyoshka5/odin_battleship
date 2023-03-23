@@ -122,6 +122,12 @@ function Player(isRealPlayer) {
         } while (!validateMove.call(this, coord));
         return coord;
     }
+
+    async function makeMove(enemyGameboard) {
+        const move = await getValidMove.call(this);
+        const shipIsHit = this.attack(move, enemyGameboard);
+        return manageShipAttack.call(this, enemyGameboard, move, shipIsHit, isRealPlayer);
+    }
     
     async function manageShipAttack(enemyGameboard, move, shipIsHit, isRealPlayer) {
         domController.displayAttack(move, shipIsHit, isRealPlayer);
