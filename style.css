@@ -40,7 +40,6 @@ body {
 
 .enemy-board .board-tile {
     cursor: pointer;
-    border-color: #000;
 }
 .enemy-board .board-tile:hover {
     background-color: #3cb8ff;
