@@ -14,7 +14,7 @@ const domController = (function() {
                 const tile = document.createElement('div');
                 tile.classList.add('board-tile');
                 tile.setAttribute('coordinate', `${r} ${c}`);
-                if (isPlayerGameboard) stylizeTile(shipsCoords, tile, r, c);
+                if (isPlayerGameboard) stylizeTile(shipsCoords, tile, r, c, true);
                 row.appendChild(tile);
             }
             boardDiv.appendChild(row);
@@ -22,14 +22,14 @@ const domController = (function() {
         boardContainer.appendChild(boardDiv);
     }
 
-    function stylizeTile(shipsCoords, tile, row, col) {
+    function stylizeTile(shipsCoords, tile, row, col, isPlayerTile) {
         shipsCoords.forEach(shipCoords => {
             let rotation;
             if (shipCoords.length != 1) rotation = shipCoords[0][0] == shipCoords[1][0] ? 'horizontal' : 'vertical';
             
             for (let i = 0; i < shipCoords.length; i++) {
                 if (shipCoords[i][0] == row && shipCoords[i][1] == col) {
-                    tile.classList.add('ship-tile');
+                    tile.classList.add(isPlayerTile ? 'ship-tile' : 'hit-ship-tile');
                     if (shipCoords[i+1] != undefined) {
                         if (rotation == 'horizontal') tile.style.borderRight = 'var(--ship-division-border)';
                         else tile.style.borderBottom = 'var(--ship-division-border)';
@@ -67,8 +67,7 @@ const domController = (function() {
         this.playerLastAttackedTile = attackedTile;
     }
 
-    
-    return { displayGameboard, registerMove, displayPlayerAttack, playerLastAttackedTile }
+    return { displayGameboard, registerMove, displayPlayerAttack, playerLastAttackedTile, stylizeComputerSunkShip }
 })();
 
 export default domController;

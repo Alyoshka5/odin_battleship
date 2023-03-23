@@ -50,19 +50,25 @@ body {
     background-color: #bdbdbd;
     border: 3px solid #000000;
 }
+.hit-ship-tile {
+    background-color: #ffa6a6;
+    border: 3px solid #000000;
+}
 
 .hit-symbol {
     width: 65px;
     height: 65px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .hit-symbol::before, .hit-symbol::after {
     content: "";
-    background-color: red;
+    background-color: #ff0000;
     position: absolute;
     width: 100%;
     height: 3px;
-    top: 50%;
     transform: translateY(-50%) rotate(45deg);
 }
 .hit-symbol::after {
