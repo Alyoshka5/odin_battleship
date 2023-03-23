@@ -1,24 +1,28 @@
 import { Gameboard, Player } from './factories.js';
-import domController from './domController.js';
 
 const player = Player(true);
 const playerGameboard = Gameboard();
 playerGameboard.fillBoard();
+playerGameboard.setUpGameboard();
 const computer = Player(false);
 const computerGameboard = Gameboard();
 computerGameboard.fillBoard();
 
 let currentPlayer = player;
 let currentGameboard = playerGameboard;
+let gameIsOver = false;
 
-
-(function GameLoop() {
+async function GameLoop() {
     do {
-        
-    } while (!currentGameboard.allShipsSunk());
-});
+        const enemyGameboard = currentPlayer == player ? computerGameboard : playerGameboard;
+        gameIsOver = await currentPlayer.makeMove(enemyGameboard);
+        switchPlayers();
+    } while (!gameIsOver);
+};
 
 function switchPlayers() {
     currentPlayer = currentPlayer == player ? computer : player;
     currentGameboard = currentGameboard == playerGameboard ? computerGameboard : playerGameboard;
 }
+
+GameLoop();
