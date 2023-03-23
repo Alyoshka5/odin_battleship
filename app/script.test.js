@@ -257,16 +257,17 @@ describe('domController displayPlayerAttack method adds appropriate classes to a
     enemyBoard.appendChild(attackedTile);
 
     test('adds ship hit symbol div to tile when ship is hit', () => {
-        domController.displayPlayerAttack([0, 0], true);
+        domController.displayAttack([0, 0], true, true);
         expect(attackedTile.firstChild.classList.contains('hit-symbol')).toBe(true);
     });
     test('adds miss symbol div and miss-ship-tile class to tile when ship is not hit', () => {
-        domController.displayPlayerAttack([0, 0], false);
+        domController.displayAttack([0, 0], false, true);
         expect(attackedTile.firstChild.classList.contains('miss-symbol')).toBe(true);
         expect(attackedTile.classList.contains('miss-ship-tile')).toBe(true);
     });
     test('playerLastAttackedTile property set to attackedTile', () => {
-        domController.displayPlayerAttack([0, 0], true);
+        domController.displayAttack([0, 0], true, true);
         expect(domController.playerLastAttackedTile).toEqual(attackedTile);
     });
 });
+
