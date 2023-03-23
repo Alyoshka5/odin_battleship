@@ -1,6 +1,7 @@
 
 const domController = (function() {
     let playerLastAttackedTile;
+    let computerLastAttackedTile;
 
     function displayGameboard(isPlayerGameboard, shipsCoords) {
         const boardContainer = document.querySelector('.board-container');
@@ -54,8 +55,8 @@ const domController = (function() {
         });
     }
 
-    function displayPlayerAttack(coord, shipIsHit) {
-        const attackedTile = document.querySelector(`.enemy-board .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
+    function displayAttack(coord, shipIsHit, isRealPlayer) {
+        const attackedTile = document.querySelector(`.${isRealPlayer ? 'enemy-board' : 'board'} .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
         if (shipIsHit) {
             attackedTile.innerHTML = '<div class="hit-symbol"></div>';
         } else {
@@ -63,18 +64,29 @@ const domController = (function() {
             attackedTile.classList.add('miss-ship-tile');
         }
         attackedTile.classList.add('last-attacked-tile');
-        if (this.playerLastAttackedTile) this.playerLastAttackedTile.classList.remove('last-attacked-tile');
-        this.playerLastAttackedTile = attackedTile;
-    }
-
-    function stylizeComputerSunkShip(ship) {
-        for (let coord of ship.coords) {
-            const shipTile = document.querySelector(`.enemy-board .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
-            stylizeTile([ship.coords], shipTile, coord[0], coord[1], false);
+        if (isRealPlayer) {
+            if (this.playerLastAttackedTile) this.playerLastAttackedTile.classList.remove('last-attacked-tile');
+            this.playerLastAttackedTile = attackedTile;
+        } else {
+            if (this.computerLastAttackedTile) this.computerLastAttackedTile.classList.remove('last-attacked-tile');
+            this.computerLastAttackedTile = attackedTile;
         }
     }
 
-    return { displayGameboard, registerMove, displayPlayerAttack, playerLastAttackedTile, stylizeComputerSunkShip }
+    function stylizeSunkShip(ship, isRealPlayer) {
+        for (let coord of ship.coords) {
+            if (isRealPlayer) {
+                const shipTile = document.querySelector(`.enemy-board .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
+                stylizeTile([ship.coords], shipTile, coord[0], coord[1], false);
+            } else {
+                const shipTile = document.querySelector(`.board .board-tile[coordinate="${coord[0]} ${coord[1]}"]`);
+                shipTile.classList.add('hit-ship-tile');
+            }
+        }
+    }
+
+
+    return { displayGameboard, registerMove, displayAttack, playerLastAttackedTile, computerLastAttackedTile, stylizeSunkShip }
 })();
 
 export default domController;
