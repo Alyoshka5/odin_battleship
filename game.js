@@ -1,17 +1,27 @@
 import domController from './domController.js';
 import { Gameboard, Player } from './factories.js';
 
-const player = Player(true);
-const playerGameboard = Gameboard();
-playerGameboard.fillBoard();
-playerGameboard.setUpGameboard();
-const computer = Player(false);
-const computerGameboard = Gameboard();
-computerGameboard.fillBoard();
+let player;
+let playerGameboard;
+let computer;
+let computerGameboard;
+let currentPlayer;
+let currentGameboard;
+let gameIsOver;
 
-let currentPlayer = player;
-let currentGameboard = playerGameboard;
-let gameIsOver = false;
+function startGame() {
+    gameIsOver = false;
+    player = Player(true);
+    playerGameboard = Gameboard();
+    playerGameboard.fillBoard();
+    playerGameboard.setUpGameboard();
+    computer = Player(false);
+    computerGameboard = Gameboard();
+    computerGameboard.fillBoard();
+    currentPlayer = player;
+    currentGameboard = playerGameboard;
+    GameLoop();
+}
 
 async function GameLoop() {
     do {
@@ -27,4 +37,12 @@ function switchPlayers() {
     currentGameboard = currentGameboard == playerGameboard ? computerGameboard : playerGameboard;
 }
 
-GameLoop();
+const restartButton = document.querySelector('button.restart');
+restartButton.addEventListener('click', () => {
+    domController.resetDisplay();
+    startGame();
+});
+
+startGame();
+
+export default startGame;

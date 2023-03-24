@@ -25,6 +25,17 @@ h2 {
     margin: 0 0 30px;
 }
 
+button.restart {
+    color: #ffffff;
+    background-color: #0000ff;
+    font-size: 1.5rem;
+    margin: 20px 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .board-container {
     display: flex;
     gap: 100px;
