@@ -44,5 +44,3 @@ restartButton.addEventListener('click', () => {
 });
 
 startGame();
-
-export default startGame;
