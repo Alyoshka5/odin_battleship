@@ -1,3 +1,4 @@
+import domController from './domController.js';
 import { Gameboard, Player } from './factories.js';
 
 const player = Player(true);
@@ -18,6 +19,7 @@ async function GameLoop() {
         gameIsOver = await currentPlayer.makeMove(enemyGameboard);
         switchPlayers();
     } while (!gameIsOver);
+    domController.announceWinner(currentPlayer == player ? 'Computer' : 'User');
 };
 
 function switchPlayers() {

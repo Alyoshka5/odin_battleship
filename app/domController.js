@@ -85,8 +85,12 @@ const domController = (function() {
         }
     }
 
+    function announceWinner(winner) {
+        const winnerHeader = document.querySelector('.winner-header');
+        winnerHeader.innerHTML = `${winner} wins!`;
+    }
 
-    return { displayGameboard, registerMove, displayAttack, playerLastAttackedTile, computerLastAttackedTile, stylizeSunkShip }
+    return { displayGameboard, registerMove, displayAttack, playerLastAttackedTile, computerLastAttackedTile, stylizeSunkShip, announceWinner }
 })();
 
 export default domController;
