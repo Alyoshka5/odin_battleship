@@ -90,7 +90,14 @@ const domController = (function() {
         winnerHeader.innerHTML = `${winner} wins!`;
     }
 
-    return { displayGameboard, registerMove, displayAttack, playerLastAttackedTile, computerLastAttackedTile, stylizeSunkShip, announceWinner }
+    function resetDisplay() {
+        const winnerHead = document.querySelector('h2.winner-header');
+        winnerHead.textContent = '';
+        const boardContainer = document.querySelector('.board-container');
+        boardContainer.innerHTML = '';
+    }
+
+    return { displayGameboard, registerMove, displayAttack, playerLastAttackedTile, computerLastAttackedTile, stylizeSunkShip, announceWinner, resetDisplay }
 })();
 
 export default domController;
